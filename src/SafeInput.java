@@ -66,9 +66,7 @@ public class SafeInput {
         boolean okInput = false;
         int inputInt = 0;
         int retRangedInt = 0;
-        String buffer = ""; /*Again, well aware of how to the nextLine and hasNext methods of
-        bullet proofing, but I think this is more reliable and I didn't want to have to deal with
-        blank input causing bugs in the future. Try/catch is a good thing to learn, too*/
+        String buffer = "";
 
         do{
             System.out.print("\n" + prompt + " [" + low + " - " + high + "]: ");
@@ -123,11 +121,11 @@ public class SafeInput {
         do {
             System.out.print("\n" + prompt +": ");
             continueInput = pipe.nextLine();
-            if(continueInput.equalsIgnoreCase("Y")) {
+            if(continueInput.equalsIgnoreCase("Y") || continueInput.equalsIgnoreCase("yes")) {
                 retYN = true;
                 done = true;
             }
-            else if (continueInput.equalsIgnoreCase("N")) {
+            else if (continueInput.equalsIgnoreCase("N") || continueInput.equalsIgnoreCase("no")) {
                 retYN = false;
                 done = true;
             }
