@@ -8,6 +8,7 @@ public class TicTacToe {
     private static final int ROWS = 3;
     private static final int COLS = 3;
     private static String board [][] = new String[ROWS][COLS];
+    private static String playerValue = "X";
 
 
     //now the main process  runs the game
@@ -16,16 +17,18 @@ public class TicTacToe {
 
         Scanner input = new Scanner(System.in);
         boolean playAgain = false;
-
-        //define players
-        String playerX = "X";
-        String playerO = "O";
+        int moveCount = 0;
+        int player1Wins = 0; //X player
+        int player2Wins = 0; //O player
+        int ties = 0;
 
 
         do {
             // game code will go here, will loop so long as user indicates they want to play again
 
             startGame();
+            //input move
+            inputMove();
 
             playAgain = SafeInput.getYNConfirm(input, "Would you like to play another game? [Y/N]");
 
@@ -35,11 +38,41 @@ public class TicTacToe {
 
     }
 
+
     private static void startGame() {
         //contains the code for starting a game, called when the program starts or the user plays again
         clearBoard();
         System.out.println();
         showBoard();
+        playerValue = "X";
+    }
+
+    private static void inputMove() {
+    }
+
+    private static boolean isValidMove(int row, int col) {
+        if (board[row][col].equals(" ")) {
+            return true;
+        }
+        else if (board[row][col].equals("X") || board[row][col].equals("O")) {
+            return false;
+        }
+        else {
+            System.out.println("Unexpected value in " + board[row][col] + "for isValidMove");
+            return false;
+        }
+    }
+
+    private static void togglePlayer() {
+        if (playerValue.equals("X")) {
+            playerValue = "O";
+        }
+        else if (playerValue.equals("O")) {
+            playerValue = "X";
+        }
+        else {
+            System.out.println("Unexpected player value for togglePlayer");
+        }
     }
 
     private static void showBoard() {
@@ -65,7 +98,35 @@ public class TicTacToe {
                 board[r][c] = " ";
             }
         }
+    }
 
+    private static boolean isRowWin() {
+        for(int r = 0; r < ROWS; r++) {
+            if (board[r][0].equals(playerValue) && board[r][1].equals(playerValue) && board[r][2].equals(playerValue)) {
+                return true;
+            }
+        }
+        return false; //now wins in any row
+    }
 
+    private static boolean isColWin() {
+        for (int c = 0; c < COLS; c++) {
+            if (board[0][c].equals(playerValue) && board[1][c].equals(playerValue) && board[2][c].equals(playerValue)) {
+                return true;
+            }
+        }
+        return false; //no wins in any column
+    }
+
+    private static boolean isDiagonalWin() {
+        if (board[0][0].equals(playerValue) && board[1][1].equals(playerValue) && board[2][2].equals(playerValue)) {
+            return true;
+        }
+        else if (board[0][2].equals(playerValue) && board[1][1].equals(playerValue) && board[2][0].equals(playerValue)) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }
