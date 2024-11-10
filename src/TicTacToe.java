@@ -21,16 +21,25 @@ public class TicTacToe {
         int player1Wins = 0; //X player
         int player2Wins = 0; //O player
         int ties = 0;
+        int[] move = new int[2];
 
+        //print greeting and instructions on opening program
 
+        System.out.println("\nWelcome to simple two player Tic Tac Toe");
+        System.out.println("\nX will play first");
+        System.out.println("Enter moves by coordinates of the row and column");
+        System.out.println("0 for left/top, 1 for middle, 2 for right/bottom");
         do {
             // game code will go here, will loop so long as user indicates they want to play again
 
-            startGame();
-            //input move
-            inputMove();
+            startGame(); //clears board and resets all relevant game values to 0
+            System.out.println("Player " + playerValue + " move");
+            playerInput(input, move); //inputs a move from a player, stores in move
+            for (int i : move) {
+                System.out.print(i + " ");
+            }
 
-            playAgain = SafeInput.getYNConfirm(input, "Would you like to play another game? [Y/N]");
+            playAgain = SafeInput.getYNConfirm(input, "\nWould you like to play another game? [Y/N]");
 
         } while(playAgain);
 
@@ -47,7 +56,11 @@ public class TicTacToe {
         playerValue = "X";
     }
 
-    private static void inputMove() {
+    private static void playerInput(Scanner pipe, int[] moveArray) {
+    /* takes Scanner and move array declared in main, prompts player for input, and enters chosen move into the
+     array in form (row, column) Since the original array is referenced, no return value is necessary*/
+        moveArray[0] = SafeInput.getRangedInt(pipe, "Row", 0, 2); //row value
+        moveArray[1] = SafeInput.getRangedInt(pipe, "Column", 0, 2); //column value
     }
 
     private static boolean isValidMove(int row, int col) {

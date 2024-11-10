@@ -69,7 +69,7 @@ public class SafeInput {
         String buffer = "";
 
         do{
-            System.out.print("\n" + prompt + " [" + low + " - " + high + "]: ");
+            System.out.print(prompt + " [" + low + " - " + high + "]: ");
             buffer = pipe.nextLine();
             try {
                 inputInt = Integer.parseInt(buffer);
@@ -78,10 +78,10 @@ public class SafeInput {
                     okInput = true;
                 }
                 else {
-                    System.out.print("Int outside valid range.");
+                    System.out.print("Outside valid range \n");
                 }
             } catch (NumberFormatException error) {
-                System.out.print("Invalid int parsing " + error.getMessage());
+                System.out.print("Invalid input\n");
             }
         } while(!okInput);
 
