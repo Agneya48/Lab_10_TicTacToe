@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="99fa0153-b55b-4055-a2bf-312fc4c3ab64" name="Changes" comment="Input processing and error catching">
+    <list default="true" id="99fa0153-b55b-4055-a2bf-312fc4c3ab64" name="Changes" comment="Early input processing and error catching">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/TicTacToe.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/TicTacToe.java" afterDir="false" />
     </list>
@@ -91,7 +91,15 @@
       <option name="project" value="LOCAL" />
       <updated>1731264052258</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Early input processing and error catching">
+      <option name="closed" value="true" />
+      <created>1731265148107</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1731265148107</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -99,6 +107,7 @@
     <MESSAGE value="Added simple board display and continue loop" />
     <MESSAGE value="Implemented most methods aside from player input" />
     <MESSAGE value="Input processing and error catching" />
-    <option name="LAST_COMMIT_MESSAGE" value="Input processing and error catching" />
+    <MESSAGE value="Early input processing and error catching" />
+    <option name="LAST_COMMIT_MESSAGE" value="Early input processing and error catching" />
   </component>
 </project>

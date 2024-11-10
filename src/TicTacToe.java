@@ -18,30 +18,46 @@ public class TicTacToe {
         Scanner input = new Scanner(System.in);
         boolean playAgain = false;
         int moveCount = 0;
-        int player1Wins = 0; //X player
-        int player2Wins = 0; //O player
+        int xWins = 0; //X player
+        int oWins = 0; //O player
         int ties = 0;
-        int[] move = new int[2];
+        boolean gameDone = false;
 
         //print greeting and instructions on opening program
 
-        System.out.println("\nWelcome to simple two player Tic Tac Toe");
+        System.out.println("\nWelcome to simple 3x3 Tic Tac Toe");
         System.out.println("\nX will play first");
         System.out.println("Enter moves by coordinates of the row and column");
-        System.out.println("0 for left/top, 1 for middle, 2 for right/bottom");
-        do {
-            // game code will go here, will loop so long as user indicates they want to play again
+        System.out.println("1 for left/top, 2 for middle, 3 for right/bottom");
+        do {// loops as long as user indicates they want to play again
 
             startGame(); //clears board and resets all relevant game values to 0
-            System.out.println("Player " + playerValue + " move");
-            playerInput(input, move); //inputs a move from a player, stores in move
-            for (int i : move) {
-                System.out.print(i + " ");
-            }
-            System.out.println();
-            showBoard();
 
-            playAgain = SafeInput.getYNConfirm(input, "\nWould you like to play another game? [Y/N]");
+            do {// loops through turns until a winner or tie is determined
+                System.out.println("\n" + playerValue + " move");
+                playerInput(input); //inputs a move from a player, stores in move
+                moveCount++;
+                System.out.println("\nTurn " + moveCount);
+                showBoard();
+                if (moveCount >= 5) {
+
+                    if (isWin()) { //found a win, increments win value and displays winner
+                        System.out.println("\n" + playerValue + " Player Wins!");
+                        gameDone = true;
+                        if (playerValue.equals("X")) xWins++;
+                        else if (playerValue.equals("O")) oWins++;
+                        else System.out.println("Unexpected playerValue line 48");
+                    }
+                }
+                togglePlayer();
+            } while (!gameDone);
+
+            //after finishing a game, print total wins and ties
+            System.out.println("X Wins: " + xWins);
+            System.out.println("O Wins: " + oWins);
+            System.out.println("Ties: " + ties);
+
+            playAgain = SafeInput.getYNConfirm(input, "Would you like to play another game? [Y/N]");
 
         } while(playAgain);
 
@@ -58,25 +74,21 @@ public class TicTacToe {
         playerValue = "X";
     }
 
-    private static void playerInput(Scanner pipe, int[] moveArray) {
+    private static void playerInput(Scanner pipe) {
     /* takes Scanner and move array declared in main, prompts player for input, and enters chosen move into the
      array in form (row, column). Then enters move into square if it is empty.*/
-        int row = SafeInput.getRangedInt(pipe, "Row", 0, 2); //row value
-        int col = SafeInput.getRangedInt(pipe, "Column", 0, 2); //column value
         boolean valid = false;
-        do {
-            if (isValidMove(row, col)) {
+        do { //loops until a blank square is inputted
+            int row = SafeInput.getRangedInt(pipe, "Row", 1, 3); //row value
+            int col = SafeInput.getRangedInt(pipe, "Column", 1, 3); //column value
+            if (isValidMove(row-1, col-1)) {
                 valid = true;
-                board[row][col] = playerValue;
-                moveArray[0] = row;
-                moveArray[1] = col;
+                board[row-1][col-1] = playerValue;
             }
             else {
                 System.out.println("Invalid move. Square already filled");
-                valid = false;
             }
         } while (!valid);
-
     }
 
     private static boolean isValidMove(int row, int col) {
@@ -106,15 +118,15 @@ public class TicTacToe {
 
     private static void showBoard() {
         //prints the board using the current board array values and adds separators
-        /*manually coding with println instead of using for loops because it's more legible, and the outer borders are
-        different from the interior separators. Less work to just make everything loop-less instead of mixing in
-        for loops when there are so few rows and columns*/
+        /*manually coding with println instead of using for loops because it's more legible, and easier to change
+        Originally, the outer borders and interior separators were different. Less work to just make everything
+        loop-less instead of mixing in for loops when there are so few rows and columns*/
 
         System.out.println("|---|---|---|"); //prints top border
         System.out.println("| " + board[0][0] + " | " + board[0][1] + " | " + board[0][2] + " |"); //first row
-        System.out.println("|---+---+---|"); //divider
+        System.out.println("|---|---|---|"); //divider
         System.out.println("| " + board[1][0] + " | " + board[1][1] + " | " + board[1][2] + " |"); //second row
-        System.out.println("|---+---+---|"); //divider
+        System.out.println("|---|---|---|"); //divider
         System.out.println("| " + board[2][0] + " | " + board[2][1] + " | " + board[2][2] + " |"); //third row
         System.out.println("|---|---|---|"); //bottom border
 
@@ -129,13 +141,19 @@ public class TicTacToe {
         }
     }
 
+    private static boolean isWin() {
+        //checks for row, column and diagonal win conditions, returns true if found
+        if (isRowWin() || isColWin() || isDiagonalWin()) return true;
+        else return false;
+    }
+
     private static boolean isRowWin() {
         for(int r = 0; r < ROWS; r++) {
             if (board[r][0].equals(playerValue) && board[r][1].equals(playerValue) && board[r][2].equals(playerValue)) {
                 return true;
             }
         }
-        return false; //now wins in any row
+        return false; //no wins in any row
     }
 
     private static boolean isColWin() {
