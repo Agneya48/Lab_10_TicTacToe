@@ -69,7 +69,7 @@ public class SafeInput {
         String buffer = "";
 
         do{
-            System.out.print(prompt + " [" + low + " - " + high + "]: ");
+            System.out.print(prompt + " [" + low + "-" + high + "]: ");
             buffer = pipe.nextLine();
             try {
                 inputInt = Integer.parseInt(buffer);
@@ -119,7 +119,7 @@ public class SafeInput {
         boolean done = false;
         String continueInput = "";
         do {
-            System.out.print("\n" + prompt +": ");
+            System.out.print(prompt +": ");
             continueInput = pipe.nextLine();
             if(continueInput.equalsIgnoreCase("Y") || continueInput.equalsIgnoreCase("yes")) {
                 retYN = true;

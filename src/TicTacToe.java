@@ -1,6 +1,10 @@
+import java.util.Arrays;
 import java.util.Scanner;
 
-//might recode this with java's default GUI display libraries later
+//might recode this with java's default GUI display libraries later.
+/*Also, if the lab wasn't partially meant to practice 2D arrays, I would have just labeled the squares 1-9
+so players could input their choice more easily
+ */
 
 public class TicTacToe {
 
@@ -8,12 +12,12 @@ public class TicTacToe {
     private static final int ROWS = 3;
     private static final int COLS = 3;
     private static String board [][] = new String[ROWS][COLS];
+    private static String startingPlayer = "X";
     private static String playerValue = "X";
 
 
     //now the main process  runs the game
     public static void main(String[] args) {
-
 
         Scanner input = new Scanner(System.in);
         boolean playAgain = false;
@@ -21,35 +25,60 @@ public class TicTacToe {
         int xWins = 0; //X player
         int oWins = 0; //O player
         int ties = 0;
+        boolean togglePrompt = false;
         boolean gameDone = false;
 
         //print greeting and instructions on opening program
-
         System.out.println("\nWelcome to simple 3x3 Tic Tac Toe");
-        System.out.println("\nX will play first");
+        System.out.println("\nX moves first");
         System.out.println("Enter moves by coordinates of the row and column");
         System.out.println("1 for left/top, 2 for middle, 3 for right/bottom");
+
         do {// loops as long as user indicates they want to play again
 
-            startGame(); //clears board and resets all relevant game values to 0
+            if (playAgain) //will only trigger if the player(s) decided to play another game after finishing one
+                //lets players swap default starting character
+                togglePrompt = SafeInput.getYNConfirm(input, "Swap order of players? [Y/N]");
+            if (togglePrompt)
+                if (startingPlayer.equals("X"))
+                    startingPlayer = "O";
+                else if (startingPlayer.equals("O"))
+                    startingPlayer = "X";
+                else
+                    System.out.println("Unexpected player value line 48");
+
+            startGame();//clears board and resets all relevant game values to 0
+            gameDone = false;
+            moveCount = 0;
+
 
             do {// loops through turns until a winner or tie is determined
+
                 System.out.println("\n" + playerValue + " move");
                 playerInput(input); //inputs a move from a player, stores in move
                 moveCount++;
                 System.out.println("\nTurn " + moveCount);
                 showBoard();
-                if (moveCount >= 5) {
 
+                if (moveCount >= 5) { //check for possible wins
                     if (isWin()) { //found a win, increments win value and displays winner
-                        System.out.println("\n" + playerValue + " Player Wins!");
+                        System.out.println("\n" + playerValue + " Wins!");
                         gameDone = true;
                         if (playerValue.equals("X")) xWins++;
                         else if (playerValue.equals("O")) oWins++;
-                        else System.out.println("Unexpected playerValue line 48");
+                        else System.out.println("Unexpected playerValue line 57");
                     }
                 }
-                togglePlayer();
+                if (moveCount >= 7) {//check for ties, only inevitable after turn 7
+                    if (isTie()) {
+                        System.out.println("\nThe game ends in a tie.");
+                        ties++;
+                        gameDone = true;
+                    }
+                }
+
+                togglePlayer(); //turn ends, switch between players. Has no effect if game ends
+
             } while (!gameDone);
 
             //after finishing a game, print total wins and ties
@@ -57,7 +86,7 @@ public class TicTacToe {
             System.out.println("O Wins: " + oWins);
             System.out.println("Ties: " + ties);
 
-            playAgain = SafeInput.getYNConfirm(input, "Would you like to play another game? [Y/N]");
+            playAgain = SafeInput.getYNConfirm(input, "\nWould you like to play another game? [Y/N]");
 
         } while(playAgain);
 
@@ -71,7 +100,7 @@ public class TicTacToe {
         clearBoard();
         System.out.println();
         showBoard();
-        playerValue = "X";
+        playerValue = startingPlayer;
     }
 
     private static void playerInput(Scanner pipe) {
@@ -176,4 +205,44 @@ public class TicTacToe {
             return false;
         }
     }
+
+    private static boolean vectorContainsX (String[] vector) {
+        if (Arrays.stream(vector).anyMatch("X"::equals))
+            return true;
+        else return false;
+    }
+
+    private static boolean vectorContainsO (String[] vector) {
+        if (Arrays.stream(vector).anyMatch("O"::equals))
+            return true;
+        else return false;
+    }
+
+    private static boolean isTie() { //checks for ties by brute-force all vectors
+        /*could definitely be done more efficiently (like keeping the list of poss win vectors higher scope in class
+         and removing them as they became invalid, but efficiency doesn't matter for a tiny game like this*/
+        String[] vector1 = {board[0][0], board[0][1], board[0][2]};
+        String[] vector2 = {board[1][0], board[1][1], board[1][2]};
+        String[] vector3 = {board[2][0], board[2][1], board[2][2]};
+        String[] vector4 = {board[0][0], board[1][0], board[2][0]};
+        String[] vector5 = {board[0][1], board[1][1], board[2][1]};
+        String[] vector6 = {board[0][2], board[1][2], board[2][2]};
+        String[] vector7 = {board[0][0], board[1][1], board[2][2]};
+        String[] vector8 = {board[0][2], board[1][1], board[2][0]};
+
+        /*would ideally just create a list of arrays and iterate through a for loop, but haven't figured
+        out the syntax for that yet so we get this nonsense instead*/
+
+        if ((vectorContainsX(vector1) && vectorContainsO(vector1))
+                && (vectorContainsX(vector2) && vectorContainsO(vector2))
+                && (vectorContainsX(vector3) && vectorContainsO(vector3))
+                && (vectorContainsX(vector4) && vectorContainsO(vector4))
+                && (vectorContainsX(vector5) && vectorContainsO(vector5))
+                && (vectorContainsX(vector6) && vectorContainsO(vector6))
+                && (vectorContainsX(vector7) && vectorContainsO(vector7))
+                && (vectorContainsX(vector8) && vectorContainsO(vector8))) {
+            return true;
+        }
+        else return false;
+        }
 }
