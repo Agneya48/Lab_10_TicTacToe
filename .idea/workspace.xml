@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="99fa0153-b55b-4055-a2bf-312fc4c3ab64" name="Changes" comment="Implemented most methods aside from player input">
+    <list default="true" id="99fa0153-b55b-4055-a2bf-312fc4c3ab64" name="Changes" comment="Input processing and error catching">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/SafeInput.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SafeInput.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/TicTacToe.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/TicTacToe.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -84,13 +83,22 @@
       <option name="project" value="LOCAL" />
       <updated>1731067640730</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Input processing and error catching">
+      <option name="closed" value="true" />
+      <created>1731264052258</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1731264052258</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Initial Commit" />
     <MESSAGE value="Added simple board display and continue loop" />
     <MESSAGE value="Implemented most methods aside from player input" />
-    <option name="LAST_COMMIT_MESSAGE" value="Implemented most methods aside from player input" />
+    <MESSAGE value="Input processing and error catching" />
+    <option name="LAST_COMMIT_MESSAGE" value="Input processing and error catching" />
   </component>
 </project>

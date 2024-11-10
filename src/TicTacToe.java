@@ -38,6 +38,8 @@ public class TicTacToe {
             for (int i : move) {
                 System.out.print(i + " ");
             }
+            System.out.println();
+            showBoard();
 
             playAgain = SafeInput.getYNConfirm(input, "\nWould you like to play another game? [Y/N]");
 
@@ -58,9 +60,23 @@ public class TicTacToe {
 
     private static void playerInput(Scanner pipe, int[] moveArray) {
     /* takes Scanner and move array declared in main, prompts player for input, and enters chosen move into the
-     array in form (row, column) Since the original array is referenced, no return value is necessary*/
-        moveArray[0] = SafeInput.getRangedInt(pipe, "Row", 0, 2); //row value
-        moveArray[1] = SafeInput.getRangedInt(pipe, "Column", 0, 2); //column value
+     array in form (row, column). Then enters move into square if it is empty.*/
+        int row = SafeInput.getRangedInt(pipe, "Row", 0, 2); //row value
+        int col = SafeInput.getRangedInt(pipe, "Column", 0, 2); //column value
+        boolean valid = false;
+        do {
+            if (isValidMove(row, col)) {
+                valid = true;
+                board[row][col] = playerValue;
+                moveArray[0] = row;
+                moveArray[1] = col;
+            }
+            else {
+                System.out.println("Invalid move. Square already filled");
+                valid = false;
+            }
+        } while (!valid);
+
     }
 
     private static boolean isValidMove(int row, int col) {
